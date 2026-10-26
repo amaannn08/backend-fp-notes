@@ -1,0 +1,157 @@
+[
+ {
+  "pos": 0,
+  "id": "0Rwb4Xmlcwc",
+  "title": "1. Roadmap for backend from first principles"
+ },
+ {
+  "pos": 1,
+  "id": "3qFjZbFRSAU",
+  "title": "2. Walk the path of a true backend engineer"
+ },
+ {
+  "pos": 2,
+  "id": "6Ss4dJD9Kzg",
+  "title": "3. What is a Backend, how do they work and why do we need them?"
+ },
+ {
+  "pos": 3,
+  "id": "6fqZs5Z3k9A",
+  "title": "4. Benefits of learning backend engineering from first principles"
+ },
+ {
+  "pos": 4,
+  "id": "a3C1DMswClQ",
+  "title": "5. Understanding HTTP for backend engineers, where it all starts"
+ },
+ {
+  "pos": 5,
+  "id": "SubuU1iOC2s",
+  "title": "6. What is Routing in Backend? How Requests Find Their Way Home"
+ },
+ {
+  "pos": 6,
+  "id": "vzg90tY3uM0",
+  "title": "7. Serialization and Deserialization for backend engineers"
+ },
+ {
+  "pos": 7,
+  "id": "A95rliroC8Q",
+  "title": "8. Authentication and authorization for backend engineers"
+ },
+ {
+  "pos": 8,
+  "id": "qedj_JjjL-U",
+  "title": "9. Validations and transformations for backend engineers"
+ },
+ {
+  "pos": 9,
+  "id": "hyc-7w3pee8",
+  "title": "10. What are controllers, services, repositories, middlewares and request context?"
+ },
+ {
+  "pos": 10,
+  "id": "RG6q57DwV8Y",
+  "title": "11. Complete REST API Design"
+ },
+ {
+  "pos": 11,
+  "id": "F7Vwp2Xo5Do",
+  "title": "12. Mastering Databases with Postgres"
+ },
+ {
+  "pos": 12,
+  "id": "estH64OkwxU",
+  "title": "13. Caching, the secret behind it all"
+ },
+ {
+  "pos": 13,
+  "id": "r-nQsyguU1Y",
+  "title": "14. Task queues and background jobs"
+ },
+ {
+  "pos": 14,
+  "id": "7_sovzAhRSM",
+  "title": "15. Full text search using Elasticsearch for blazingly fast search"
+ },
+ {
+  "pos": 15,
+  "id": "8NaM_9aKS24",
+  "title": "16. Error Handling and Building Fault Tolerant Systems"
+ },
+ {
+  "pos": 16,
+  "id": "GR9NtirPXyc",
+  "title": "17. Production-grade Configuration Management"
+ },
+ {
+  "pos": 17,
+  "id": "5PEuwgLOQQM",
+  "title": "18. Logging, Monitoring and Observability"
+ },
+ {
+  "pos": 18,
+  "id": "6rfBgphiCWM",
+  "title": "19. Graceful Shutdown"
+ },
+ {
+  "pos": 19,
+  "id": "xB1C1xZZW4k",
+  "title": "20. Backend Security: Everything You Need to Know"
+ },
+ {
+  "pos": 20,
+  "id": "z7kt_p44rjs",
+  "title": "21.1. Backend Scaling and Performance Engineering: Part-1"
+ },
+ {
+  "pos": 21,
+  "id": "sOhAopEwjH4",
+  "title": "21.2. Backend Scaling and Performance Engineering: Part-2"
+ },
+ {
+  "pos": 22,
+  "id": "bs9MEYRTA30",
+  "title": "22. Concurrency & Parallelism: IO Bound vs CPU Bound"
+ },
+ {
+  "pos": 23,
+  "id": "Ie0TjKI9cDI",
+  "title": "23. Object Storage - Everything You Need to Know: Part -1"
+ },
+ {
+  "pos": 24,
+  "id": "iWrVCxexUWY",
+  "title": "24. Object Storage - Everything You Need to Know: Part - 2"
+ },
+ {
+  "pos": 25,
+  "id": "wUQryt697cs",
+  "title": "25. Real-Time Backends"
+ },
+ {
+  "pos": 26,
+  "id": "HgVrfHX92y4",
+  "title": "26. Testing for Backend Engineers: mocks, TDD and coverage"
+ },
+ {
+  "pos": 27,
+  "id": "2_fcv3-XfN4",
+  "title": "27. The Twelve-Factor App"
+ },
+ {
+  "pos": 28,
+  "id": "CwKsU84jIWs",
+  "title": "28. OpenAPI: The universal contract between clients and servers"
+ },
+ {
+  "pos": 29,
+  "id": "eWM0CVReP04",
+  "title": "29. Webhooks: how the server calls you"
+ },
+ {
+  "pos": 30,
+  "id": "_E8X5RIJfQ4",
+  "title": "30. DevOps for backend engineers"
+ }
+]
