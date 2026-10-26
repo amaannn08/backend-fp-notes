@@ -11,6 +11,7 @@ import { ChapterTabs } from "@/components/notes/chapter-tabs";
 import { MarkComplete } from "@/components/notes/mark-complete";
 import { PrevNext } from "@/components/notes/prev-next";
 import { Toc } from "@/components/notes/toc";
+import { TocMobile } from "@/components/notes/toc-mobile";
 import { ReadingProgressBar } from "@/components/notes/reading-progress-bar";
 import { TrackVisit } from "@/components/notes/track-visit";
 import { ChapterShortcuts } from "@/components/notes/chapter-shortcuts";
@@ -82,6 +83,8 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
           </div>
 
           <VideoEmbed videoId={note.videoId} title={note.title} />
+
+          <TocMobile headings={note.headings} />
 
           <ChapterTabs body={note.body} tldr={note.tldr} cheatSheet={note.cheatSheet} questions={note.questions} />
 
