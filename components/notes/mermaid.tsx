@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState, useId, type WheelEvent, type MouseEvent } from "react";
+import { useContext, useEffect, useRef, useState, useId, type WheelEvent, type MouseEvent } from "react";
 import { useTheme } from "next-themes";
 import { Maximize2, X } from "lucide-react";
+import { MermaidEagerContext, MermaidProgressContext } from "@/lib/mermaid-context";
 
 let mermaidModulePromise: Promise<typeof import("mermaid")> | null = null;
 function loadMermaid() {
@@ -12,7 +13,7 @@ function loadMermaid() {
   return mermaidModulePromise;
 }
 
-async function renderChart(
+export async function renderChart(
   chart: string,
   id: string,
   theme: "dark" | "default",
@@ -123,11 +124,15 @@ export function Mermaid({ children }: { children: string }) {
   const chart = typeof children === "string" ? children : String(children ?? "");
   const baseId = useId().replace(/[:]/g, "");
   const { resolvedTheme } = useTheme();
-  const { ref, near } = useNearViewport<HTMLDivElement>();
+  const { ref, near: observedNear } = useNearViewport<HTMLDivElement>();
+  const eager = useContext(MermaidEagerContext);
+  const reportProgress = useContext(MermaidProgressContext);
+  const near = eager || observedNear;
   const [state, setState] = useState<"idle" | "loading" | "ready" | "error">("idle");
   const [svg, setSvg] = useState("");
   const [error, setError] = useState("");
   const [open, setOpen] = useState(false);
+  const reported = useRef(false);
   const firstLine = chart.trim().split("\n")[0]?.slice(0, 80) ?? "diagram";
 
   useEffect(() => {
@@ -142,6 +147,10 @@ export function Mermaid({ children }: { children: string }) {
       } else {
         setSvg(res.svg);
         setState("ready");
+      }
+      if (!reported.current) {
+        reported.current = true;
+        reportProgress?.();
       }
     });
     return () => {

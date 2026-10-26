@@ -112,6 +112,77 @@
   }
 }
 
+/* ---------------------------------------------------------------------- */
+/* Print — force light theme, hide chrome, paginate cleanly                */
+/* ---------------------------------------------------------------------- */
+
+@media print {
+  @page {
+    size: A4;
+    margin: 18mm 16mm;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    color: #111 !important;
+    font-size: 11pt;
+  }
+
+  :root,
+  .dark {
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.141 0.005 285.823);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.141 0.005 285.823);
+    --border: oklch(0.88 0.004 286.32);
+    --muted: oklch(0.96 0.001 286.375);
+    --muted-foreground: oklch(0.35 0.01 285.938);
+  }
+
+  header,
+  footer,
+  #video-embed,
+  [data-no-print],
+  .skip-link {
+    display: none !important;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+  }
+
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.75em;
+    color: #666;
+    word-break: break-all;
+  }
+
+  pre,
+  figure,
+  table,
+  .mermaid-container,
+  [data-alert],
+  details {
+    break-inside: avoid;
+  }
+
+  details > summary {
+    list-style: none;
+  }
+  details > div {
+    display: block !important;
+  }
+
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
