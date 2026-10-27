@@ -16,7 +16,7 @@ export function ThemeToggle() {
       size="icon"
       aria-label="Toggle theme"
       onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-      className="size-8"
+      className="size-10 sm:size-8"
     >
       {mounted && resolvedTheme === "dark" ? (
         <Sun className="size-4" />

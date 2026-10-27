@@ -61,7 +61,7 @@ export function NotesFilterList({ notes }: { notes: NoteMeta[] }) {
         <span className="ml-auto text-sm text-muted-foreground">{filtered.length} chapters</span>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {filtered.map((n) => {
           const mod = MODULES.find((m) => m.name === n.module)!;
           const colors = MODULE_COLOR_CLASSES[mod.color];

@@ -1,9 +1,10 @@
 "use client";
 
-import { useContext, useEffect, useRef, useState, useId, type WheelEvent, type MouseEvent } from "react";
+import { useContext, useEffect, useLayoutEffect, useRef, useState, useId, type PointerEvent, type UIEvent } from "react";
 import { useTheme } from "next-themes";
-import { Maximize2, X } from "lucide-react";
+import { Maximize2 } from "lucide-react";
 import { MermaidEagerContext, MermaidProgressContext } from "@/lib/mermaid-context";
+import { DiagramViewer } from "@/components/notes/diagram-viewer";
 
 let mermaidModulePromise: Promise<typeof import("mermaid")> | null = null;
 function loadMermaid() {
@@ -56,66 +57,70 @@ function useNearViewport<T extends HTMLElement>(rootMargin = "400px") {
   return { ref, near };
 }
 
-function DiagramSurface({
-  svg,
-  ariaLabel,
-  zoomable = false,
-}: {
-  svg: string;
-  ariaLabel: string;
-  zoomable?: boolean;
-}) {
-  const [transform, setTransform] = useState({ scale: 1, x: 0, y: 0 });
-  const dragRef = useRef<{ x: number; y: number; active: boolean }>({ x: 0, y: 0, active: false });
+/** Below this fraction of the diagram's natural width, text becomes unreadable — let it overflow and scroll instead of shrinking further. */
+const MIN_READABLE_SCALE = 0.75;
 
-  function onWheel(e: WheelEvent<HTMLDivElement>) {
-    if (!zoomable) return;
-    e.preventDefault();
-    const delta = -e.deltaY * 0.0015;
-    setTransform((t) => ({ ...t, scale: Math.min(4, Math.max(0.4, t.scale + delta)) }));
+function DiagramSurface({ svg, ariaLabel, onTap }: { svg: string; ariaLabel: string; onTap?: () => void }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [overflowing, setOverflowing] = useState(false);
+  const [atEnd, setAtEnd] = useState(true);
+  const pointerStart = useRef<{ x: number; scrollLeft: number } | null>(null);
+
+  useLayoutEffect(() => {
+    const el = containerRef.current;
+    const svgEl = el?.querySelector("svg");
+    if (!el || !svgEl) return;
+    const vb = svgEl.viewBox?.baseVal;
+    const vbWidth = vb && vb.width > 0 ? vb.width : svgEl.getBoundingClientRect().width;
+    const cw = el.clientWidth;
+    if (vbWidth > 0 && cw / vbWidth < MIN_READABLE_SCALE) {
+      svgEl.style.maxWidth = "none";
+      svgEl.style.width = `${Math.round(vbWidth * MIN_READABLE_SCALE)}px`;
+      setOverflowing(true);
+      setAtEnd(false);
+    } else {
+      svgEl.style.maxWidth = "";
+      svgEl.style.width = "";
+      setOverflowing(false);
+    }
+  }, [svg]);
+
+  function onScroll(e: UIEvent<HTMLDivElement>) {
+    const el = e.currentTarget;
+    setAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 4);
   }
-  function onMouseDown(e: MouseEvent<HTMLDivElement>) {
-    if (!zoomable) return;
-    dragRef.current = { x: e.clientX, y: e.clientY, active: true };
+
+  function onPointerDown(e: PointerEvent<HTMLDivElement>) {
+    pointerStart.current = { x: e.clientX, scrollLeft: e.currentTarget.scrollLeft };
   }
-  function onMouseMove(e: MouseEvent<HTMLDivElement>) {
-    if (!zoomable || !dragRef.current.active) return;
-    const dx = e.clientX - dragRef.current.x;
-    const dy = e.clientY - dragRef.current.y;
-    dragRef.current = { x: e.clientX, y: e.clientY, active: true };
-    setTransform((t) => ({ ...t, x: t.x + dx, y: t.y + dy }));
-  }
-  function endDrag() {
-    dragRef.current.active = false;
+
+  function onClick() {
+    if (!onTap) return;
+    // Whole-surface tap-to-expand is for touch only — mouse users have the explicit button.
+    if (typeof window !== "undefined" && !window.matchMedia("(pointer: coarse)").matches) return;
+    const el = containerRef.current;
+    const moved = pointerStart.current && el ? Math.abs(el.scrollLeft - pointerStart.current.scrollLeft) : 0;
+    if (moved < 5) onTap();
   }
 
   return (
-    <div
-      className={`mermaid-container w-full ${zoomable ? "h-full cursor-grab active:cursor-grabbing overflow-hidden" : "overflow-x-auto"}`}
-      onWheel={onWheel}
-      onMouseDown={onMouseDown}
-      onMouseMove={onMouseMove}
-      onMouseUp={endDrag}
-      onMouseLeave={endDrag}
-      role="img"
-      aria-label={ariaLabel}
-    >
+    <div>
       <div
-        style={
-          zoomable
-            ? {
-                transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.scale})`,
-                transformOrigin: "center",
-                transition: dragRef.current.active ? "none" : "transform 0.08s ease-out",
-                height: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }
-            : undefined
-        }
+        ref={containerRef}
+        className="mermaid-container w-full overflow-x-auto overscroll-x-contain"
+        style={overflowing && !atEnd ? { maskImage: "linear-gradient(to right, black 85%, transparent)" } : undefined}
+        onScroll={onScroll}
+        onPointerDown={onPointerDown}
+        onClick={onClick}
+        role="img"
+        aria-label={ariaLabel}
         dangerouslySetInnerHTML={{ __html: svg }}
       />
+      {overflowing && (
+        <p className="mt-1.5 hidden text-center text-xs text-muted-foreground pointer-coarse:block">
+          ← swipe to see the full diagram · tap to zoom →
+        </p>
+      )}
     </div>
   );
 }
@@ -184,35 +189,14 @@ export function Mermaid({ children }: { children: string }) {
             type="button"
             onClick={() => setOpen(true)}
             aria-label="Expand diagram"
-            className="absolute right-2 top-2 z-10 rounded-md border border-border bg-background/80 p-1.5 opacity-0 backdrop-blur transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
+            className="hit-area absolute right-2 top-2 z-10 rounded-md border border-border bg-background/80 p-1.5 opacity-0 backdrop-blur transition-opacity group-hover:opacity-100 focus-visible:opacity-100 pointer-coarse:opacity-100"
           >
             <Maximize2 className="h-3.5 w-3.5" />
           </button>
-          <DiagramSurface svg={svg} ariaLabel={firstLine} />
+          <DiagramSurface svg={svg} ariaLabel={firstLine} onTap={() => setOpen(true)} />
         </>
       )}
-      {open && (
-        <div
-          className="fixed inset-0 z-50 flex flex-col bg-background/95 backdrop-blur-sm"
-          role="dialog"
-          aria-modal
-        >
-          <div className="flex items-center justify-between border-b border-border p-3">
-            <p className="text-sm text-muted-foreground">Scroll to zoom · drag to pan</p>
-            <button
-              type="button"
-              onClick={() => setOpen(false)}
-              aria-label="Close"
-              className="rounded-md border border-border p-1.5 hover:bg-muted"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          </div>
-          <div className="flex-1 overflow-hidden">
-            <DiagramSurface svg={svg} ariaLabel={firstLine} zoomable />
-          </div>
-        </div>
-      )}
+      <DiagramViewer open={open} onOpenChange={setOpen} svg={svg} label={firstLine} />
     </div>
   );
 }

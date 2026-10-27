@@ -22,7 +22,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-border/80 bg-background/85 backdrop-blur-md">
-      <div className="mx-auto flex h-14 max-w-screen-2xl items-center gap-2 px-4 sm:px-6">
+      <div className="mx-auto flex h-14 max-w-screen-2xl items-center gap-1 px-4 sm:gap-2 sm:px-6">
         <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight">
           <span className="flex h-7 w-7 items-center justify-center rounded-md bg-primary text-primary-foreground">
             <Terminal className="h-4 w-4" />
@@ -65,7 +65,7 @@ export function Header() {
           </DropdownMenu>
         </nav>
 
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex items-center gap-1 sm:gap-2">
           <Button
             variant="outline"
             size="sm"
@@ -81,7 +81,7 @@ export function Header() {
           <Button
             variant="ghost"
             size="icon"
-            className="size-8 sm:hidden"
+            className="size-10 sm:hidden"
             aria-label="Search"
             onClick={() => window.dispatchEvent(new CustomEvent(SEARCH_OPEN_EVENT))}
           >
@@ -91,7 +91,7 @@ export function Header() {
           <Button
             variant="ghost"
             size="icon"
-            className="size-8 lg:hidden"
+            className="size-10 lg:hidden"
             aria-label="Open menu"
             onClick={() => setMobileOpen(true)}
           >

@@ -30,7 +30,7 @@ export function CodeBlockFigure({
         type="button"
         onClick={handleCopy}
         aria-label="Copy code"
-        className="absolute right-2 top-2 z-10 rounded-md border border-border bg-background/80 p-1.5 opacity-0 backdrop-blur transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
+        className="hit-area absolute right-2 top-2 z-10 rounded-md border border-border bg-background/80 p-1.5 opacity-0 backdrop-blur transition-opacity group-hover:opacity-100 focus-visible:opacity-100 pointer-coarse:opacity-100"
       >
         {copied ? (
           <Check className="h-3.5 w-3.5 text-emerald-500" />

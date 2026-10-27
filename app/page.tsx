@@ -91,7 +91,7 @@ export default async function HomePage() {
           <h2 className="text-xl font-semibold">Course map</h2>
           <p className="text-sm text-muted-foreground">A suggested study order — chapter numbers follow the original video order.</p>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {MODULES.map((mod) => {
             const chapters = notes
               .filter((n) => n.module === mod.name)

@@ -43,7 +43,7 @@ export function ModuleCard({
   const pct = chapters.length > 0 ? Math.round((doneCount / chapters.length) * 100) : 0;
 
   return (
-    <div className="flex flex-col rounded-xl border border-border bg-card p-5">
+    <div className="flex min-w-0 flex-col rounded-xl border border-border bg-card p-5">
       <div className="flex items-start gap-3">
         <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${colors.bg} ${colors.text}`}>
           {icon}
