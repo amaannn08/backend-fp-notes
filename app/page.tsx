@@ -27,8 +27,8 @@ export default async function HomePage() {
           questions — everything you need to study the whole playlist once and walk into a backend placement
           interview ready.
         </p>
-        <div className="flex flex-wrap gap-3">
-          <Button asChild size="lg">
+        <div className="grid w-full grid-cols-2 gap-3 sm:flex sm:w-auto sm:flex-wrap">
+          <Button asChild size="lg" className="col-span-2">
             <Link href="/notes/roadmap">
               Start chapter 1 <ArrowRight className="h-4 w-4" />
             </Link>
@@ -48,7 +48,7 @@ export default async function HomePage() {
 
       <section className="mt-8 grid gap-4 sm:grid-cols-[auto_1fr]">
         <HomeProgress totalChapters={stats.chapterCount} totalQuestions={stats.totalQuestions} />
-        <ContinueCard />
+        <ContinueCard className="order-first sm:order-none" />
       </section>
 
       <section className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -66,21 +66,21 @@ export default async function HomePage() {
       </section>
 
       <section className="mt-14">
-        <div className="mb-5 flex items-center justify-between">
+        <div className="mb-5 flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between">
           <h2 className="text-xl font-semibold">High-yield for interviews</h2>
           <Link href="/interview" className="text-sm text-primary hover:underline">
             Open the full bank →
           </Link>
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-col divide-y divide-border rounded-xl border border-border sm:flex-row sm:flex-wrap sm:divide-y-0 sm:border-0 sm:gap-2">
           {highYield.map((n) => (
             <Link
               key={n.slug}
               href={`/notes/${n.slug}`}
-              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-sm transition-colors hover:border-primary/40 hover:bg-primary/5"
+              className="flex min-h-12 items-center gap-2.5 px-4 text-sm transition-colors hover:bg-primary/5 sm:min-h-0 sm:rounded-full sm:border sm:border-border sm:bg-card sm:px-3 sm:py-1.5 sm:hover:border-primary/40"
             >
-              <BookOpen className="h-3.5 w-3.5 text-muted-foreground" />
-              {n.title}
+              <BookOpen className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+              <span className="line-clamp-2 sm:line-clamp-none">{n.title}</span>
             </Link>
           ))}
         </div>

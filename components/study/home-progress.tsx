@@ -8,9 +8,9 @@ export function HomeProgress({ totalChapters, totalQuestions }: { totalChapters:
   const { known } = useKnownQuestions();
 
   return (
-    <div className="flex flex-wrap items-center gap-6 rounded-xl border border-border bg-card p-4">
+    <div className="grid grid-cols-2 items-center gap-4 rounded-xl border border-border bg-card p-4 sm:flex sm:gap-6">
       <ProgressRing value={completed.length} total={totalChapters} label="chapters complete" />
-      <div className="h-10 w-px bg-border" />
+      <div className="hidden h-10 w-px bg-border sm:block" />
       <ProgressRing value={known.length} total={totalQuestions} label="questions known" />
     </div>
   );

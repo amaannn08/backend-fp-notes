@@ -71,7 +71,7 @@ export function ModuleCard({
             <li key={c.slug}>
               <Link
                 href={`/notes/${c.slug}`}
-                className="group flex items-center gap-2.5 rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-secondary/60"
+                className="group flex items-center gap-2.5 rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-secondary/60 pointer-coarse:py-2.5"
               >
                 {done ? (
                   <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />
@@ -81,7 +81,9 @@ export function ModuleCard({
                   <Circle className="h-4 w-4 shrink-0 text-muted-foreground/40" />
                 )}
                 <span className="w-5 shrink-0 text-xs tabular-nums text-muted-foreground">{c.order}</span>
-                <span className="min-w-0 flex-1 truncate group-hover:text-foreground">{c.title}</span>
+                <span className="min-w-0 flex-1 truncate group-hover:text-foreground pointer-coarse:line-clamp-2 pointer-coarse:whitespace-normal">
+                  {c.title}
+                </span>
                 <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${DIFFICULTY_DOT[c.difficulty]}`} />
                 {c.interviewWeight >= 4 && (
                   <span className="flex shrink-0 items-center gap-0.5 text-amber-500">
