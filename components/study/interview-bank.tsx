@@ -5,6 +5,7 @@ import { Search, Shuffle, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ChipRow } from "@/components/ui/chip-row";
 import { QuestionCard } from "@/components/notes/question-card";
 import { MockRound, type MockQuestion } from "@/components/study/mock-round";
 import { useKnownQuestions } from "@/lib/progress";
@@ -69,8 +70,8 @@ export function InterviewBank({
 
   return (
     <div>
-      <div className="mb-4 flex flex-wrap items-center gap-3">
-        <div className="relative flex-1 min-w-[200px]">
+      <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+        <div className="relative w-full sm:min-w-[200px] sm:flex-1">
           <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             value={query}
@@ -79,14 +80,19 @@ export function InterviewBank({
             className="pl-8"
           />
         </div>
-        <Button variant={random ? "secondary" : "outline"} size="sm" onClick={() => setRandom((r) => !r)} className="gap-1.5">
-          <Shuffle className="h-3.5 w-3.5" /> {random ? "Random" : "By chapter"}
+        <Button onClick={startMockRound} className="w-full gap-1.5 sm:w-auto">
+          <Zap className="h-3.5 w-3.5" /> Mock round
         </Button>
-        <Button variant={hideKnown ? "secondary" : "outline"} size="sm" onClick={() => setHideKnown((h) => !h)}>
-          Hide known
-        </Button>
+        <div className="grid grid-cols-2 gap-2 sm:flex sm:gap-3">
+          <Button variant={random ? "secondary" : "outline"} size="sm" onClick={() => setRandom((r) => !r)} className="gap-1.5">
+            <Shuffle className="h-3.5 w-3.5" /> {random ? "Random" : "By chapter"}
+          </Button>
+          <Button variant={hideKnown ? "secondary" : "outline"} size="sm" onClick={() => setHideKnown((h) => !h)}>
+            Hide known
+          </Button>
+        </div>
         <Select value={chapterFilter ?? "all"} onValueChange={(v) => setChapterFilter(v === "all" ? null : v)}>
-          <SelectTrigger size="sm" className="w-[180px]">
+          <SelectTrigger size="sm" className="w-full sm:w-[180px]">
             <SelectValue placeholder="All chapters" />
           </SelectTrigger>
           <SelectContent>
@@ -98,12 +104,9 @@ export function InterviewBank({
             ))}
           </SelectContent>
         </Select>
-        <Button onClick={startMockRound} className="gap-1.5">
-          <Zap className="h-3.5 w-3.5" /> Mock round
-        </Button>
       </div>
 
-      <div className="mb-6 flex flex-wrap items-center gap-2">
+      <ChipRow className="mb-6">
         <Button variant={moduleFilter === null ? "secondary" : "outline"} size="sm" onClick={() => setModuleFilter(null)}>
           All modules
         </Button>
@@ -117,7 +120,7 @@ export function InterviewBank({
             {m.name}
           </Button>
         ))}
-      </div>
+      </ChipRow>
 
       <p className="mb-4 text-sm text-muted-foreground">
         {known.length} / {questions.length} known · {filtered.length} shown

@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { CheckCircle2, Circle, CircleDot, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ChipRow } from "@/components/ui/chip-row";
 import { useCompletedChapters, useVisitedChapters } from "@/lib/progress";
 import { MODULES, MODULE_COLOR_CLASSES } from "@/lib/modules";
 import type { NoteMeta, Difficulty } from "@/lib/types";
@@ -27,7 +28,7 @@ export function NotesFilterList({ notes }: { notes: NoteMeta[] }) {
 
   return (
     <div>
-      <div className="mb-6 flex flex-wrap items-center gap-2">
+      <ChipRow className="mb-6">
         <Button variant={moduleFilter === null ? "secondary" : "outline"} size="sm" onClick={() => setModuleFilter(null)}>
           All modules
         </Button>
@@ -41,9 +42,9 @@ export function NotesFilterList({ notes }: { notes: NoteMeta[] }) {
             {m.name}
           </Button>
         ))}
-      </div>
+      </ChipRow>
 
-      <div className="mb-8 flex flex-wrap items-center gap-2">
+      <ChipRow className="mb-3">
         {DIFFICULTIES.map((d) => (
           <Button
             key={d}
@@ -58,8 +59,8 @@ export function NotesFilterList({ notes }: { notes: NoteMeta[] }) {
         <Button variant={highYieldOnly ? "secondary" : "outline"} size="sm" onClick={() => setHighYieldOnly((v) => !v)}>
           <Star className="h-3.5 w-3.5" /> High-yield only
         </Button>
-        <span className="ml-auto text-sm text-muted-foreground">{filtered.length} chapters</span>
-      </div>
+      </ChipRow>
+      <p className="mb-8 text-sm text-muted-foreground sm:text-right">{filtered.length} chapters</p>
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {filtered.map((n) => {

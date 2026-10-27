@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { getAllNotesMeta } from "@/lib/content";
 import { buildRoadmapMermaid } from "@/lib/roadmap";
 import { RoadmapDiagram } from "@/components/study/roadmap-diagram";
@@ -30,6 +31,12 @@ export default function RoadmapPage() {
         completed are highlighted.
       </p>
       <RoadmapDiagram source={source} notes={notes} />
+      <p className="mt-3 text-center text-sm text-muted-foreground md:hidden">
+        Prefer a list?{" "}
+        <Link href="/#course-map" className="text-primary hover:underline">
+          See the course map →
+        </Link>
+      </p>
 
       <div className="mt-10 rounded-xl border border-border bg-card p-4">
         <h2 className="mb-3 text-sm font-semibold text-muted-foreground">Plain list (for small screens or if the diagram fails to load)</h2>

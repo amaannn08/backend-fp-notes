@@ -27,7 +27,7 @@ export function QuestionCard({
       open={defaultOpen || undefined}
       className="not-prose group my-3 rounded-lg border border-border bg-card open:bg-card/60"
     >
-      <summary className="flex cursor-pointer list-none items-center gap-2 px-4 py-3 text-[0.95rem] font-medium marker:content-none [&::-webkit-details-marker]:hidden">
+      <summary className="flex cursor-pointer list-none items-center gap-2 px-4 py-3.5 text-[0.95rem] font-medium marker:content-none [&::-webkit-details-marker]:hidden">
         <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-90" />
         <span className="min-w-0 flex-1">{question}</span>
         <button
@@ -39,14 +39,14 @@ export function QuestionCard({
           }}
           aria-pressed={known}
           aria-label={known ? "Marked as known" : "Mark as known"}
-          className={`shrink-0 rounded-full p-1 transition-colors ${
+          className={`hit-area shrink-0 rounded-full p-2 -m-1 transition-colors ${
             known ? "text-emerald-500" : "text-muted-foreground/50 hover:text-muted-foreground"
           }`}
         >
           {known ? <CheckCircle2 className="h-4.5 w-4.5" /> : <Circle className="h-4.5 w-4.5" />}
         </button>
       </summary>
-      <div className="border-t border-border px-4 py-3 text-[0.925rem] leading-7 [&>:first-child]:mt-0 [&>:last-child]:mb-0">
+      <div className="min-w-0 border-t border-border px-4 py-3 text-[0.925rem] leading-7 [&>:first-child]:mt-0 [&>:last-child]:mb-0 [&_pre]:overflow-x-auto [&_table]:block [&_table]:overflow-x-auto">
         {answer}
         {chapterLink && (
           <p className="mt-3 text-xs">

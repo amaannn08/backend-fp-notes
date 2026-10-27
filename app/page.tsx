@@ -86,7 +86,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="mt-14">
+      <section id="course-map" className="mt-14 scroll-mt-20">
         <div className="mb-5">
           <h2 className="text-xl font-semibold">Course map</h2>
           <p className="text-sm text-muted-foreground">A suggested study order — chapter numbers follow the original video order.</p>

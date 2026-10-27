@@ -1,10 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { ThumbsDown, ThumbsUp, Zap, Shuffle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ChipRow } from "@/components/ui/chip-row";
 import { Flashcard } from "@/components/study/flashcard";
 import { useKnownQuestions, useLeitnerBoxes } from "@/lib/progress";
 import { MODULES } from "@/lib/modules";
@@ -32,6 +33,7 @@ export function FlashcardDeck({ cards }: { cards: FlashcardItem[] }) {
   const [cursor, setCursor] = useState(0);
   const { isKnown } = useKnownQuestions();
   const { grade, dueCount, isDue } = useLeitnerBoxes();
+  const deckRef = useRef<HTMLDivElement>(null);
 
   const deckCards = useMemo(() => {
     let list = cards;
@@ -58,6 +60,7 @@ export function FlashcardDeck({ cards }: { cards: FlashcardItem[] }) {
     const chosen = due.length >= 3 ? due : pool;
     setOrder(shuffle(chosen).map((c) => c.id));
     setCursor(0);
+    deckRef.current?.scrollIntoView({ block: "start", behavior: "smooth" });
   }
 
   const current = order[cursor] ? byId.get(order[cursor]) : undefined;
@@ -76,7 +79,7 @@ export function FlashcardDeck({ cards }: { cards: FlashcardItem[] }) {
 
   return (
     <div>
-      <div className="mb-6 flex flex-wrap gap-2">
+      <ChipRow className="mb-6">
         {deckChips.map((d) => {
           const count = d.key === "all" ? dueCount(cards.map((c) => c.id)) : dueCount(deckCards.map((c) => c.id));
           const total =
@@ -95,41 +98,43 @@ export function FlashcardDeck({ cards }: { cards: FlashcardItem[] }) {
             </Button>
           );
         })}
-      </div>
+      </ChipRow>
 
-      {order.length === 0 ? (
-        <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed border-border py-16 text-center">
-          <Shuffle className="h-6 w-6 text-muted-foreground" />
-          <p className="text-sm text-muted-foreground">Pick a deck above to start drilling.</p>
-        </div>
-      ) : !current ? (
-        <div className="flex flex-col items-center gap-4 rounded-xl border border-border bg-card py-16 text-center">
-          <Zap className="h-8 w-8 text-primary" />
-          <p className="font-medium">Deck complete — {order.length} cards reviewed.</p>
-          <Button onClick={() => startDeck(deck)}>Restart deck</Button>
-        </div>
-      ) : (
-        <div className="mx-auto flex max-w-2xl flex-col items-center gap-5">
-          <p className="text-xs text-muted-foreground">
-            Card {cursor + 1} / {order.length}
-          </p>
-          <Flashcard cardKey={current.id} front={current.front} back={current.back} />
-          <Link href={`/notes/${current.chapterSlug}`} className="text-xs text-muted-foreground hover:text-primary">
-            {current.chapterTitle}
-          </Link>
-          <div className="flex gap-3">
-            <Button variant="outline" onClick={() => handleGrade("again")} className="gap-2">
-              <ThumbsDown className="h-4 w-4 text-rose-500" /> Again
-            </Button>
-            <Button variant="outline" onClick={() => handleGrade("good")} className="gap-2">
-              <ThumbsUp className="h-4 w-4 text-amber-500" /> Good
-            </Button>
-            <Button variant="outline" onClick={() => handleGrade("easy")} className="gap-2">
-              <Zap className="h-4 w-4 text-emerald-500" /> Easy
-            </Button>
+      <div ref={deckRef} className="scroll-mt-20">
+        {order.length === 0 ? (
+          <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed border-border py-16 text-center">
+            <Shuffle className="h-6 w-6 text-muted-foreground" />
+            <p className="text-sm text-muted-foreground">Pick a deck above to start drilling.</p>
           </div>
-        </div>
-      )}
+        ) : !current ? (
+          <div className="flex flex-col items-center gap-4 rounded-xl border border-border bg-card py-16 text-center">
+            <Zap className="h-8 w-8 text-primary" />
+            <p className="font-medium">Deck complete — {order.length} cards reviewed.</p>
+            <Button onClick={() => startDeck(deck)}>Restart deck</Button>
+          </div>
+        ) : (
+          <div className="mx-auto flex max-w-2xl flex-col items-center gap-5">
+            <p className="text-xs text-muted-foreground">
+              Card {cursor + 1} / {order.length}
+            </p>
+            <Flashcard cardKey={current.id} front={current.front} back={current.back} />
+            <Link href={`/notes/${current.chapterSlug}`} className="text-xs text-muted-foreground hover:text-primary">
+              {current.chapterTitle}
+            </Link>
+            <div className="sticky bottom-0 -mx-4 grid w-[calc(100%+2rem)] grid-cols-3 gap-2 border-t border-border bg-background/90 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur sm:static sm:w-auto sm:flex sm:border-0 sm:bg-transparent sm:p-0 sm:backdrop-blur-none">
+              <Button variant="outline" onClick={() => handleGrade("again")} className="h-12 gap-2 sm:h-9">
+                <ThumbsDown className="h-4 w-4 text-rose-500" /> Again
+              </Button>
+              <Button variant="outline" onClick={() => handleGrade("good")} className="h-12 gap-2 sm:h-9">
+                <ThumbsUp className="h-4 w-4 text-amber-500" /> Good
+              </Button>
+              <Button variant="outline" onClick={() => handleGrade("easy")} className="h-12 gap-2 sm:h-9">
+                <Zap className="h-4 w-4 text-emerald-500" /> Easy
+              </Button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
