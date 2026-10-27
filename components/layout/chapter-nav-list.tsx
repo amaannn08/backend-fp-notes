@@ -38,7 +38,8 @@ export function ChapterNavList({ groups, onNavigate }: { groups: ChapterNavGroup
                     <Link
                       href={`/notes/${c.slug}`}
                       onClick={onNavigate}
-                      className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors ${
+                      data-active={active || undefined}
+                      className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors pointer-coarse:py-2.5 ${
                         active ? "bg-secondary font-medium text-foreground" : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground"
                       }`}
                     >
@@ -50,7 +51,9 @@ export function ChapterNavList({ groups, onNavigate }: { groups: ChapterNavGroup
                         <Circle className="h-3.5 w-3.5 shrink-0 text-muted-foreground/30" />
                       )}
                       <span className="w-5 shrink-0 text-xs tabular-nums opacity-60">{c.order}</span>
-                      <span className="min-w-0 flex-1 truncate">{c.title}</span>
+                      <span className="min-w-0 flex-1 truncate pointer-coarse:line-clamp-2 pointer-coarse:whitespace-normal">
+                        {c.title}
+                      </span>
                     </Link>
                   </li>
                 );

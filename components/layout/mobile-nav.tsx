@@ -9,8 +9,8 @@ export function MobileNav({ open, onOpenChange }: { open: boolean; onOpenChange:
   const pathname = usePathname();
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="left" className="w-72">
-        <SheetHeader>
+      <SheetContent side="right" className="w-72">
+        <SheetHeader className="pr-14">
           <SheetTitle>Backend from First Principles</SheetTitle>
         </SheetHeader>
         <nav className="flex flex-col gap-1 px-2">
@@ -21,7 +21,7 @@ export function MobileNav({ open, onOpenChange }: { open: boolean; onOpenChange:
                 key={item.href}
                 href={item.href}
                 onClick={() => onOpenChange(false)}
-                className={`flex items-start gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
+                className={`flex min-h-12 items-start gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
                   active ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary/60"
                 }`}
               >

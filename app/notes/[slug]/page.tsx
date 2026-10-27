@@ -11,7 +11,7 @@ import { ChapterTabs } from "@/components/notes/chapter-tabs";
 import { MarkComplete } from "@/components/notes/mark-complete";
 import { PrevNext } from "@/components/notes/prev-next";
 import { Toc } from "@/components/notes/toc";
-import { TocMobile } from "@/components/notes/toc-mobile";
+import { ReaderBar } from "@/components/notes/reader-bar";
 import { ReadingProgressBar } from "@/components/notes/reading-progress-bar";
 import { TrackVisit } from "@/components/notes/track-visit";
 import { ChapterShortcuts } from "@/components/notes/chapter-shortcuts";
@@ -53,17 +53,18 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
         nextSlug={note.next?.slug}
         headings={note.headings}
       />
+      <ReaderBar slug={note.slug} prev={note.prev} next={note.next} headings={note.headings} />
 
       <div className="mx-auto flex max-w-screen-xl gap-10 px-4 py-8 sm:px-6 xl:gap-12">
         <div className="min-w-0 flex-1">
           <nav aria-label="Breadcrumb" className="mb-4 flex items-center gap-1.5 text-sm text-muted-foreground">
-            <Link href="/notes" className="hover:text-foreground">
+            <Link href="/notes" className="-my-2 py-2 hover:text-foreground">
               Chapters
             </Link>
             <ChevronRight className="h-3.5 w-3.5" />
             <span>{mod.name}</span>
-            <ChevronRight className="h-3.5 w-3.5" />
-            <span className="truncate text-foreground">{note.title}</span>
+            <ChevronRight className="hidden h-3.5 w-3.5 sm:block" />
+            <span className="hidden truncate text-foreground sm:inline">{note.title}</span>
           </nav>
 
           <NoteHeader
@@ -83,8 +84,6 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
           </div>
 
           <VideoEmbed videoId={note.videoId} title={note.title} />
-
-          <TocMobile headings={note.headings} />
 
           <ChapterTabs body={note.body} tldr={note.tldr} cheatSheet={note.cheatSheet} questions={note.questions} />
 

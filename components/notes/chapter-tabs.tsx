@@ -41,10 +41,16 @@ export function ChapterTabs({
 
   return (
     <Tabs value={tab} onValueChange={handleTabChange} className="mt-6">
-      <TabsList>
-        <TabsTrigger value="notes">Notes</TabsTrigger>
-        <TabsTrigger value="revise">Quick revise</TabsTrigger>
-        <TabsTrigger value="qa">Q&amp;A</TabsTrigger>
+      <TabsList className="w-full sm:w-auto">
+        <TabsTrigger value="notes" className="flex-1 sm:flex-none">
+          Notes
+        </TabsTrigger>
+        <TabsTrigger value="revise" className="flex-1 sm:flex-none">
+          Quick revise
+        </TabsTrigger>
+        <TabsTrigger value="qa" className="flex-1 sm:flex-none">
+          Q&amp;A
+        </TabsTrigger>
       </TabsList>
 
       <TabsContent value="notes">
