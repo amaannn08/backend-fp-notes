@@ -8,6 +8,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { CommandMenu } from "@/components/search/command-menu";
+import { ServiceWorker } from "@/components/layout/service-worker";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap" });
 const jetbrainsMono = JetBrains_Mono({
@@ -45,6 +46,12 @@ export const metadata: Metadata = {
     title: "Backend from First Principles — Study Notes",
     description: "31 chapters · 305 diagrams · 392 interview questions.",
   },
+  // iOS "Add to Home Screen": open full-screen like an app instead of as a Safari bookmark.
+  appleWebApp: {
+    capable: true,
+    title: "Backend FP",
+    statusBarStyle: "black",
+  },
 };
 
 export const viewport: Viewport = {
@@ -77,6 +84,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </TooltipProvider>
         </ThemeProvider>
         <Analytics />
+        <ServiceWorker />
       </body>
     </html>
   );
